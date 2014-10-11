@@ -165,13 +165,13 @@ module BootstrapForm
       name = args.first
 
       options[:class] = ["form-group", options[:class]].compact.join(' ')
-      options[:class] << " #{error_class}" if has_error?(name)
+      options[:class] << " #{error_class}" if has_error?(options[:error_attr] || name)
       options[:class] << " #{feedback_class}" if options[:icon]
 
       content_tag(:div, options.except(:id, :label, :help, :icon, :label_col, :control_col, :layout)) do
         label = generate_label(options[:id], name, options[:label], options[:label_col], options[:layout]) if options[:label]
         control = capture(&block).to_s
-        control.concat(generate_help(name, options[:help]).to_s)
+        control.concat(generate_help(options[:error_attr] || name, options[:help]).to_s)
         control.concat(generate_icon(options[:icon])) if options[:icon]
 
         if get_group_layout(options[:layout]) == :horizontal
@@ -266,6 +266,7 @@ module BootstrapForm
       wrapper_class = options.delete(:wrapper_class)
       wrapper_options = options.delete(:wrapper)
       help = options.delete(:help)
+      error_attr = options.delete(:error_attr)
       icon = options.delete(:icon)
       label_col = options.delete(:label_col)
       control_col = options.delete(:control_col)
@@ -277,6 +278,7 @@ module BootstrapForm
           class: label_class
         },
         help: help,
+        error_attr: error_attr,
         icon: icon,
         label_col: label_col,
         control_col: control_col,

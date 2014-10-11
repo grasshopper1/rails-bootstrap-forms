@@ -521,6 +521,21 @@ Which outputs:
 <div class="alert alert-danger">can't be blank.</div>
 ```
 
+### Aliased attributes errors
+
+If you set aliased attributes in the views by their aliased name and the errors 
+are stored using the original name, use the `error_attr` option.
+
+```ruby
+class User < ActiveRecord::Base
+   alias_attribute :ori_name, :aliased_name
+end
+```
+
+```erb
+<%= f.text_field_with_bootstrap :ori_name, :error_attr => :aliased_name %>
+```
+
 ## Internationalization
 
 bootstrap_form follows standard rails conventions so it's i18n-ready. See more
